@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frame It — Sewa Photobooth untuk Momen Tak Terlupakan</title>
+<meta name="description" content="Frame It — jasa sewa photobooth premium untuk pernikahan, ulang tahun, korporat, gathering, dan grand opening. Mirror booth, 360 booth, classic & digital booth.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23F2AE1E'/%3E%3Crect x='14' y='14' width='36' height='36' rx='4' fill='none' stroke='%231B2740' stroke-width='5'/%3E%3Crect x='23' y='23' width='18' height='18' rx='2' fill='%23FF6E5B'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FAF3E7;
+    --cream-2:#F3E9D8;
+    --ink:#221D16;
+    --ink-soft:#5A5245;
+    --mustard:#F2AE1E;
+    --mustard-deep:#D9930A;
+    --navy:#1B2740;
+    --navy-2:#26365A;
+    --coral:#FF6E5B;
+    --white:#FFFFFF;
+    --line:rgba(34,29,22,0.12);
+    --shadow: 0 18px 40px -18px rgba(27,39,64,0.28);
+    --radius-frame: 4px;
+    --font-display:'Bricolage Grotesque', system-ui, sans-serif;
+    --font-body:'Plus Jakarta Sans', system-ui, sans-serif;
+    --font-mono:'Space Mono', monospace;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--ink);
+    font-family:var(--font-body);
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  img,svg{display:block;max-width:100%;}
+  a{color:inherit;text-decoration:none;}
+  ul{margin:0;padding:0;list-style:none;}
+  button{font-family:inherit;cursor:pointer;}
+  h1,h2,h3,h4{font-family:var(--font-display);margin:0;line-height:1.05;letter-spacing:-0.01em;}
+  p{margin:0;}
+  .container{max-width:1200px;margin:0 auto;padding:0 24px;}
+  .eyebrow{
+    font-family:var(--font-mono);
+    font-size:12px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--mustard-deep);
+    font-weight:700;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+  }
+  .eyebrow::before{
+    content:'';
+    width:9px;height:9px;border:2px solid var(--coral);border-radius:3px;
+    display:inline-block;transform:rotate(8deg);
+  }
+  .section{padding:96px 0;position:relative;}
+  @media(max-width:768px){.section{padding:64px 0;}}
+  .section-head{max-width:640px;margin-bottom:48px;}
+  .section-head h2{font-size:clamp(30px,4.5vw,48px);margin-top:14px;}
+  .section-head p{margin-top:16px;color:var(--ink-soft);font-size:17px;}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:15px 28px;border-radius:100px;font-weight:700;font-size:15px;
+    border:2px solid transparent;transition:transform .25s ease, box-shadow .25s ease, background .25s ease, color .25s ease;
+    white-space:nowrap;
+  }
+  .btn-primary{background:var(--mustard);color:var(--navy);box-shadow:0 10px 24px -10px rgba(242,174,30,0.6);}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 30px -12px rgba(242,174,30,0.75);}
+  .btn-outline{background:transparent;border-color:var(--navy);color:var(--navy);}
+  .btn-outline:hover{background:var(--navy);color:var(--cream);}
+  .btn-dark{background:var(--navy);color:var(--cream);}
+  .btn-dark:hover{transform:translateY(-2px);box-shadow:0 16px 30px -12px rgba(27,39,64,0.5);}
+  .btn-sm{padding:10px 18px;font-size:13px;}
+
+  /* reveal animation */
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s ease, transform .8s ease;}
+  .reveal.in-view{opacity:1;transform:translateY(0);}
+  .reveal-delay-1.in-view{transition-delay:.08s;}
+  .reveal-delay-2.in-view{transition-delay:.16s;}
+  .reveal-delay-3.in-view{transition-delay:.24s;}
+  .reveal-delay-4.in-view{transition-delay:.32s;}
+  @media (prefers-reduced-motion: reduce){
+    .reveal{opacity:1;transform:none;transition:none;}
+    *{animation-duration:0.001ms !important;}
+  }
+
+  /* camera flash on load */
+  #flash{
+    position:fixed;inset:0;background:#fff;z-index:9999;
+    pointer-events:none;
+    animation:flashOut 900ms ease forwards;
+  }
+  @keyframes flashOut{
+    0%{opacity:1;}
+    40%{opacity:1;}
+    100%{opacity:0;visibility:hidden;}
+  }
+
+  /* ===== promo bar ===== */
+  .promo-bar{
+    background:var(--navy); color:var(--cream);
+    font-family:var(--font-mono); font-size:13px;
+    padding:10px 0; text-align:center;
+    display:flex; align-items:center; justify-content:center; gap:14px; flex-wrap:wrap;
+    position:relative;
+  }
+  .promo-bar strong{color:var(--mustard);}
+  .promo-bar .countdown{display:inline-flex;gap:6px;font-weight:700;}
+  .promo-bar .countdown span{background:rgba(255,255,255,0.1);padding:2px 7px;border-radius:4px;}
+  .promo-close{position:absolute;right:18px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--cream);font-size:16px;opacity:0.7;}
+  .promo-close:hover{opacity:1;}
+
+  /* ===== navbar ===== */
+  header{position:sticky;top:0;z-index:500;}
+  .navbar{
+    background:rgba(250,243,231,0.88);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 24px;max-width:1200px;margin:0 auto;
+  }
+  .logo{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:800;font-size:22px;color:var(--navy);}
+  .logo .frame-mark{
+    width:34px;height:34px;border:3px solid var(--navy);border-radius:6px;position:relative;flex-shrink:0;
+  }
+  .logo .frame-mark::before{
+    content:'';position:absolute;inset:5px;border:2px solid var(--coral);border-radius:2px;
+  }
+  .nav-links{display:flex;gap:32px;align-items:center;}
+  .nav-links a{font-size:14.5px;font-weight:600;color:var(--ink);position:relative;padding:4px 0;}
+  .nav-links a::after{
+    content:'';position:absolute;left:0;bottom:-2px;width:0;height:2px;background:var(--coral);transition:width .25s ease;
+  }
+  .nav-links a:hover::after{width:100%;}
+  .nav-right{display:flex;align-items:center;gap:18px;}
+  .burger{display:none;background:none;border:none;flex-direction:column;gap:5px;padding:6px;}
+  .burger span{width:24px;height:2px;background:var(--navy);display:block;}
+  @media(max-width:900px){
+    .nav-links{
+      position:fixed;top:0;right:-100%;height:100vh;width:78%;max-width:320px;
+      background:var(--cream);flex-direction:column;justify-content:center;align-items:flex-start;
+      padding:40px;gap:26px;transition:right .35s ease;box-shadow:-10px 0 40px rgba(0,0,0,0.12);
+      z-index:600;
+    }
+    .nav-links.open{right:0;}
+    .nav-links a{font-size:19px;}
+    .nav-cta-mobile-hide{display:none;}
+    .burger{display:flex;}
+  }
+
+  /* ===== hero ===== */
+  .hero{
+    padding:76px 0 40px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero-grid{
+    display:grid;grid-template-columns:1.05fr 0.95fr;gap:48px;align-items:center;
+  }
+  @media(max-width:960px){.hero-grid{grid-template-columns:1fr;}}
+  .hero-badges{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px;}
+  .pill{
+    font-family:var(--font-mono);font-size:12px;font-weight:700;letter-spacing:0.04em;
+    background:var(--white);border:1px solid var(--line);padding:7px 14px;border-radius:100px;
+    display:inline-flex;align-items:center;gap:6px;
+  }
+  .pill .dot{width:6px;height:6px;border-radius:50%;background:var(--coral);}
+  .hero h1{font-size:clamp(38px,6vw,68px);color:var(--navy);}
+  .hero h1 .accent{color:var(--coral);font-style:italic;}
+  .hero p.lead{margin-top:20px;font-size:18px;color:var(--ink-soft);max-width:480px;}
+  .hero-cta{display:flex;gap:16px;margin-top:32px;flex-wrap:wrap;}
+  .hero-stats{display:flex;gap:36px;margin-top:44px;flex-wrap:wrap;}
+  .hero-stats .stat b{font-family:var(--font-display);font-size:30px;color:var(--navy);display:block;}
+  .hero-stats .stat span{font-size:13px;color:var(--ink-soft);}
+
+  /* polaroid collage */
+  .collage{position:relative;height:460px;}
+  .polaroid{
+    position:absolute;background:var(--white);padding:12px 12px 40px;
+    border-radius:2px;box-shadow:var(--shadow);
+  }
+  .polaroid .photo{
+    width:100%;height:100%;border-radius:1px;position:relative;overflow:hidden;
+  }
+  .polaroid .cap{
+    font-family:var(--font-mono);font-size:11px;color:var(--ink-soft);
+    position:absolute;bottom:12px;left:12px;right:12px;text-align:center;
+  }
+  .p1{width:230px;height:270px;top:0;left:10%;transform:rotate(-9deg);z-index:2;}
+  .p1 .photo{background:linear-gradient(150deg,#FFD9CE,#FF9E86 55%,#F2AE1E);}
+  .p2{width:200px;height:240px;top:36px;right:2%;transform:rotate(7deg);z-index:3;}
+  .p2 .photo{background:linear-gradient(150deg,#DCEBE6,#8FB9AE 55%,#1B2740);}
+  .p3{width:190px;height:230px;bottom:0;left:28%;transform:rotate(4deg);z-index:4;}
+  .p3 .photo{background:linear-gradient(150deg,#FBEFD1,#F2AE1E 55%,#D9930A);}
+  .tape{position:absolute;width:64px;height:22px;background:rgba(242,174,30,0.55);opacity:0.85;}
+  .t1{top:-8px;left:14%;transform:rotate(-10deg);}
+  .t2{top:22px;right:16%;transform:rotate(12deg);}
+  .badge-stamp{
+    position:absolute;bottom:6%;right:8%;width:110px;height:110px;border-radius:50%;
+    background:var(--coral);color:#fff;display:flex;align-items:center;justify-content:center;text-align:center;
+    font-family:var(--font-mono);font-size:11px;font-weight:700;line-height:1.3;padding:10px;
+    box-shadow:0 14px 30px -10px rgba(255,110,91,0.6);
+    animation:spinSlow 16s linear infinite;
+    z-index:5;
+  }
+  @keyframes spinSlow{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+  @media(max-width:960px){.collage{height:380px;margin-top:20px;}
+    .p1{width:180px;height:210px;} .p2{width:150px;height:190px;} .p3{width:150px;height:180px;}
+    .badge-stamp{width:88px;height:88px;font-size:9.5px;}
+  }
+
+  /* ===== about ===== */
+  .about-grid{display:grid;grid-template-columns:0.85fr 1.15fr;gap:56px;align-items:start;}
+  @media(max-width:900px){.about-grid{grid-template-columns:1fr;gap:36px;}}
+  .about-copy p{color:var(--ink-soft);font-size:16.5px;margin-top:16px;}
+  .feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  @media(max-width:560px){.feature-grid{grid-template-columns:1fr;}}
+  .feature-card{
+    background:var(--white);border:1px solid var(--line);border-radius:18px;padding:26px 22px;
+    transition:transform .3s ease, box-shadow .3s ease;
+  }
+  .feature-card:hover{transform:translateY(-6px);box-shadow:var(--shadow);}
+  .feature-card .ic{
+    width:44px;height:44px;border-radius:12px;background:var(--cream-2);display:flex;align-items:center;justify-content:center;margin-bottom:14px;
+    color:var(--coral);
+  }
+  .feature-card h4{font-size:17px;margin-bottom:8px;}
+  .feature-card p{font-size:14.5px;color:var(--ink-soft);}
+
+  /* ===== services ===== */
+  .service-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;}
+  @media(max-width:960px){.service-grid{grid-template-columns:1fr 1fr;}}
+  @media(max-width:560px){.service-grid{grid-template-columns:1fr;}}
+  .service-card{
+    background:var(--white);border-radius:20px;overflow:hidden;border:1px solid var(--line);
+    transition:transform .3s ease, box-shadow .3s ease;
+  }
+  .service-card:hover{transform:translateY(-6px);box-shadow:var(--shadow);}
+  .service-photo{height:180px;position:relative;}
+  .service-photo::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(27,39,64,0.35));}
+  .sv1{background:linear-gradient(140deg,#FFE3B8,#FF9E86 60%,#1B2740);}
+  .sv2{background:linear-gradient(140deg,#DCEBE6,#8FB9AE 60%,#26365A);}
+  .sv3{background:linear-gradient(140deg,#FBEFD1,#F2AE1E 60%,#D9930A);}
+  .sv4{background:linear-gradient(140deg,#EADCF5,#B79ED6 60%,#1B2740);}
+  .service-tag{
+    position:absolute;top:14px;left:14px;background:rgba(255,255,255,0.9);
+    font-family:var(--font-mono);font-size:10.5px;font-weight:700;padding:5px 10px;border-radius:100px;
+    z-index:2;
+  }
+  .service-body{padding:20px 20px 24px;}
+  .service-body h4{font-size:18px;margin-bottom:8px;}
+  .service-body p{font-size:14px;color:var(--ink-soft);}
+
+  /* print preview */
+  .print-preview{
+    display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;
+    background:var(--navy);border-radius:28px;padding:56px;color:var(--cream);
+  }
+  @media(max-width:900px){.print-preview{grid-template-columns:1fr;padding:36px 24px;}}
+  .print-preview .eyebrow{color:var(--mustard);}
+  .print-preview .eyebrow::before{background:var(--coral);}
+  .print-preview h2{color:var(--white);margin-top:14px;font-size:clamp(26px,4vw,38px);}
+  .print-preview p{color:#C7CEDD;margin-top:14px;font-size:16px;}
+  .strip-wrap{display:flex;justify-content:center;}
+  .strip{
+    background:#fff;width:150px;padding:10px 10px 20px;border-radius:3px;box-shadow:0 30px 60px -20px rgba(0,0,0,0.5);
+    transform:rotate(-3deg);
+  }
+  .strip .frame{
+    width:100%;height:76px;border-radius:1px;margin-bottom:8px;position:relative;overflow:hidden;
+  }
+  .strip .frame::before{
+    content:'';position:absolute;inset:0;
+    background:linear-gradient(120deg,rgba(255,255,255,0.5),transparent 40%);
+    transform:translateX(-120%);
+    animation:scanLine 3.2s ease-in-out infinite;
+  }
+  @keyframes scanLine{0%{transform:translateX(-120%);}50%{transform:translateX(120%);}100%{transform:translateX(120%);}}
+  .strip .f1{background:linear-gradient(140deg,#FFD9CE,#FF9E86);}
+  .strip .f2{background:linear-gradient(140deg,#DCEBE6,#8FB9AE);}
+  .strip .f3{background:linear-gradient(140deg,#FBEFD1,#F2AE1E);}
+  .strip .brand-line{font-family:var(--font-display);font-weight:800;text-align:center;font-size:13px;color:var(--navy);margin-top:6px;}
+  .strip .date-line{font-family:var(--font-mono);text-align:center;font-size:9px;color:#9A8F7C;margin-top:2px;}
+
+  /* ===== pricing ===== */
+  .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  @media(max-width:900px){.pricing-grid{grid-template-columns:1fr;}}
+  .price-card{
+    background:var(--white);border:1px solid var(--line);border-radius:22px;padding:34px 28px;position:relative;
+    transition:transform .3s ease, box-shadow .3s ease;
+  }
+  .price-card:hover{transform:translateY(-6px);}
+  .price-card.popular{
+    background:var(--navy);color:var(--cream);border-color:var(--navy);box-shadow:0 26px 50px -16px rgba(27,39,64,0.5);
+    transform:scale(1.03);
+  }
+  @media(max-width:900px){.price-card.popular{transform:scale(1);}}
+  .popular-flag{
+    position:absolute;top:-14px;left:50%;transform:translateX(-50%);
+    background:var(--coral);color:#fff;font-family:var(--font-mono);font-size:11px;font-weight:700;
+    padding:6px 16px;border-radius:100px;letter-spacing:0.06em;
+  }
+  .price-card h4{font-size:14px;font-family:var(--font-mono);letter-spacing:0.08em;text-transform:uppercase;color:var(--mustard-deep);}
+  .price-card.popular h4{color:var(--mustard);}
+  .price-card .amount{font-family:var(--font-display);font-size:38px;margin:14px 0 4px;}
+  .price-card .amount span{font-size:14px;font-family:var(--font-body);font-weight:500;color:var(--ink-soft);}
+  .price-card.popular .amount span{color:#AAB3C8;}
+  .price-card ul{margin:24px 0 28px;display:flex;flex-direction:column;gap:12px;}
+  .price-card li{font-size:14.5px;display:flex;gap:10px;align-items:flex-start;}
+  .price-card li::before{content:'✓';color:var(--coral);font-weight:700;}
+  .price-card .btn{width:100%;}
+
+  /* customizer */
+  .customizer{
+    margin-top:56px;background:var(--cream-2);border-radius:26px;padding:44px;
+    display:grid;grid-template-columns:1fr 320px;gap:44px;
+  }
+  @media(max-width:900px){.customizer{grid-template-columns:1fr;padding:28px 22px;}}
+  .cz-field{margin-bottom:26px;}
+  .cz-field-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;}
+  .cz-field-top label{font-weight:700;font-size:14.5px;}
+  .cz-field-top .val{font-family:var(--font-mono);font-size:13px;color:var(--mustard-deep);font-weight:700;}
+  input[type=range]{
+    -webkit-appearance:none;width:100%;height:6px;border-radius:4px;background:var(--line);outline:none;
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--coral);
+    border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,0.25);cursor:pointer;
+  }
+  .cz-checks{display:flex;flex-wrap:wrap;gap:10px;}
+  .cz-check{
+    border:1.5px solid var(--line);background:var(--white);padding:9px 15px;border-radius:100px;font-size:13.5px;font-weight:600;
+    display:flex;align-items:center;gap:8px;
+  }
+  .cz-check input{accent-color:var(--coral);width:15px;height:15px;}
+  .cz-summary{
+    background:var(--navy);color:var(--cream);border-radius:20px;padding:30px 26px;height:fit-content;position:sticky;top:110px;
+  }
+  .cz-summary .eyebrow{color:var(--mustard);}
+  .cz-summary .eyebrow::before{background:var(--coral);}
+  .cz-summary .total{font-family:var(--font-display);font-size:34px;margin:14px 0 6px;}
+  .cz-summary .total span{font-size:13px;font-family:var(--font-body);color:#AAB3C8;}
+  .cz-summary .lines{margin:20px 0;font-size:13.5px;display:flex;flex-direction:column;gap:8px;color:#C7CEDD;}
+  .cz-summary .lines div{display:flex;justify-content:space-between;}
+  .cz-summary .btn{width:100%;margin-top:8px;}
+
+  /* ===== gallery ===== */
+  .filter-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:32px;}
+  .filter-btn{
+    padding:10px 20px;border-radius:100px;border:1.5px solid var(--line);background:var(--white);
+    font-size:13.5px;font-weight:700;transition:all .2s ease;
+  }
+  .filter-btn.active,.filter-btn:hover{background:var(--navy);border-color:var(--navy);color:var(--cream);}
+  .gallery-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:16px;grid-auto-rows:150px;
+  }
+  @media(max-width:900px){.gallery-grid{grid-template-columns:repeat(2,1fr);grid-auto-rows:140px;}}
+  .gallery-item{
+    border-radius:14px;position:relative;overflow:hidden;transition:transform .4s ease, opacity .4s ease;
+    display:flex;align-items:flex-end;
+  }
+  .gallery-item.hide{display:none;}
+  .gallery-item .g-label{
+    position:relative;z-index:2;padding:12px 14px;color:#fff;font-family:var(--font-mono);font-size:11px;font-weight:700;
+    text-transform:uppercase;letter-spacing:0.04em;
+  }
+  .gallery-item::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(0,0,0,0.45));}
+  .gallery-item:hover{transform:scale(1.03);}
+  .g-tall{grid-row:span 2;}
+  .gw1{background:linear-gradient(150deg,#FFD9CE,#FF9E86);}
+  .gw2{background:linear-gradient(150deg,#F6C6BE,#D9930A);}
+  .gb1{background:linear-gradient(150deg,#FBEFD1,#F2AE1E);}
+  .gb2{background:linear-gradient(150deg,#FFE3B8,#FF6E5B);}
+  .gc1{background:linear-gradient(150deg,#DCEBE6,#26365A);}
+  .gc2{background:linear-gradient(150deg,#C7CEDD,#1B2740);}
+  .gg1{background:linear-gradient(150deg,#E4EFC9,#8FB9AE);}
+  .gg2{background:linear-gradient(150deg,#EADCF5,#B79ED6);}
+
+  /* ===== testimonials ===== */
+  .test-track{display:flex;gap:22px;overflow-x:auto;padding-bottom:12px;scroll-snap-type:x mandatory;}
+  .test-track::-webkit-scrollbar{height:6px;}
+  .test-track::-webkit-scrollbar-thumb{background:var(--line);border-radius:10px;}
+  .test-card{
+    min-width:320px;scroll-snap-align:start;background:var(--white);border:1px solid var(--line);
+    border-radius:20px;padding:28px 26px;
+  }
+  .stars{color:var(--mustard-deep);letter-spacing:2px;margin-bottom:14px;font-size:15px;}
+  .test-card p.quote{font-size:15.5px;color:var(--ink);}
+  .test-who{display:flex;align-items:center;gap:12px;margin-top:20px;}
+  .test-avatar{width:42px;height:42px;border-radius:50%;flex-shrink:0;}
+  .ta1{background:linear-gradient(150deg,#FF9E86,#F2AE1E);}
+  .ta2{background:linear-gradient(150deg,#8FB9AE,#1B2740);}
+  .ta3{background:linear-gradient(150deg,#F2AE1E,#FF6E5B);}
+  .ta4{background:linear-gradient(150deg,#B79ED6,#26365A);}
+  .test-who b{font-size:14px;display:block;}
+  .test-who span{font-size:12.5px;color:var(--ink-soft);}
+
+  /* ===== booking steps ===== */
+  .steps-row{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;position:relative;}
+  @media(max-width:900px){.steps-row{grid-template-columns:1fr;}}
+  .step{position:relative;background:var(--white);border:1px solid var(--line);border-radius:18px;padding:28px 22px;}
+  .step .num{
+    font-family:var(--font-mono);font-size:13px;color:var(--coral);font-weight:700;margin-bottom:14px;display:block;
+  }
+  .step h4{font-size:16.5px;margin-bottom:8px;}
+  .step p{font-size:14px;color:var(--ink-soft);}
+
+  /* ===== availability calendar ===== */
+  .avail-wrap{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;}
+  @media(max-width:900px){.avail-wrap{grid-template-columns:1fr;}}
+  .cal{background:var(--white);border:1px solid var(--line);border-radius:20px;padding:24px;}
+  .cal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+  .cal-head b{font-family:var(--font-display);font-size:18px;}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;}
+  .cal-grid .dow{font-family:var(--font-mono);font-size:10px;text-align:center;color:var(--ink-soft);margin-bottom:4px;}
+  .cal-day{
+    aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;border-radius:8px;font-size:12.5px;font-weight:600;
+    background:var(--cream-2);color:var(--ink);
+  }
+  .cal-day.booked{background:var(--navy);color:#8590A8;text-decoration:line-through;}
+  .cal-day.available{background:rgba(242,174,30,0.18);color:var(--mustard-deep);}
+  .cal-day.today{outline:2px solid var(--coral);}
+  .cal-day.empty{background:transparent;}
+  .cal-legend{display:flex;gap:16px;margin-top:16px;flex-wrap:wrap;font-size:12px;color:var(--ink-soft);}
+  .cal-legend span{display:inline-flex;align-items:center;gap:6px;}
+  .legend-dot{width:10px;height:10px;border-radius:3px;display:inline-block;}
+
+  /* ===== FAQ ===== */
+  .faq-list{max-width:800px;}
+  .faq-item{border-bottom:1px solid var(--line);}
+  .faq-q{
+    width:100%;text-align:left;background:none;border:none;padding:22px 0;display:flex;justify-content:space-between;align-items:center;
+    font-weight:700;font-size:16px;gap:16px;
+  }
+  .faq-q .plus{font-size:22px;color:var(--coral);transition:transform .3s ease;flex-shrink:0;}
+  .faq-item.open .plus{transform:rotate(45deg);}
+  .faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease;}
+  .faq-a p{padding-bottom:22px;color:var(--ink-soft);font-size:14.5px;max-width:640px;}
+
+  /* ===== coverage ===== */
+  .coverage-wrap{
+    background:var(--navy);border-radius:28px;padding:52px;color:var(--cream);
+    display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;
+  }
+  @media(max-width:900px){.coverage-wrap{grid-template-columns:1fr;padding:34px 24px;}}
+  .coverage-wrap h2{color:#fff;}
+  .coverage-wrap p{color:#C7CEDD;margin-top:12px;}
+  .city-grid{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px;}
+  .city-badge{
+    background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);padding:8px 16px;border-radius:100px;font-size:13px;font-weight:600;
+    display:flex;align-items:center;gap:6px;
+  }
+  .city-badge .pin{width:6px;height:6px;border-radius:50%;background:var(--mustard);}
+  .map-illust{position:relative;height:260px;border-radius:20px;overflow:hidden;border:6px solid rgba(255,255,255,0.9);}
+
+  /* ===== instagram feed ===== */
+  .ig-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;margin-bottom:32px;}
+  .ig-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;}
+  @media(max-width:900px){.ig-grid{grid-template-columns:repeat(3,1fr);}}
+  .ig-tile{aspect-ratio:1/1;border-radius:12px;position:relative;overflow:hidden;}
+  .ig-tile::after{content:'♥';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:22px;opacity:0;background:rgba(27,39,64,0.4);transition:opacity .3s ease;}
+  .ig-tile:hover::after{opacity:1;}
+  .ig1{background:linear-gradient(150deg,#FFD9CE,#FF9E86);}
+  .ig2{background:linear-gradient(150deg,#DCEBE6,#8FB9AE);}
+  .ig3{background:linear-gradient(150deg,#FBEFD1,#F2AE1E);}
+  .ig4{background:linear-gradient(150deg,#EADCF5,#B79ED6);}
+  .ig5{background:linear-gradient(150deg,#C7CEDD,#1B2740);}
+  .ig6{background:linear-gradient(150deg,#FFE3B8,#FF6E5B);}
+
+  /* ===== contact / form ===== */
+  .contact-grid{display:grid;grid-template-columns:0.9fr 1.1fr;gap:48px;}
+  @media(max-width:900px){.contact-grid{grid-template-columns:1fr;}}
+  .contact-info{background:var(--navy);color:var(--cream);border-radius:24px;padding:40px 34px;}
+  .contact-info h3{color:#fff;font-size:24px;margin-bottom:14px;}
+  .contact-info p{color:#C7CEDD;font-size:14.5px;}
+  .contact-line{display:flex;gap:14px;align-items:flex-start;margin-top:22px;}
+  .contact-line .ic{
+    width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;flex-shrink:0;
+    color:var(--mustard);
+  }
+  .contact-line b{font-size:14px;display:block;}
+  .contact-line span{font-size:13px;color:#AAB3C8;}
+  .contact-socials{display:flex;gap:10px;margin-top:28px;}
+  .soc-btn{
+    width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;
+    transition:background .2s ease, color .2s ease; color:var(--cream);
+  }
+  .soc-btn:hover{background:var(--mustard);color:var(--navy);}
+
+  .form-card{background:var(--white);border:1px solid var(--line);border-radius:24px;padding:38px 34px;}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  @media(max-width:560px){.form-row{grid-template-columns:1fr;}}
+  .field{margin-bottom:18px;}
+  .field label{font-size:13px;font-weight:700;margin-bottom:8px;display:block;}
+  .field input,.field select,.field textarea{
+    width:100%;padding:13px 14px;border-radius:10px;border:1.5px solid var(--line);background:var(--cream-2);
+    font-family:var(--font-body);font-size:14.5px;color:var(--ink);outline:none;transition:border-color .2s ease;
+  }
+  .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--coral);}
+  .form-actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;}
+
+  /* ===== lace / scallop trim ===== */
+  .lace{
+    height:22px;width:100%;
+    background-repeat:repeat-x;background-position:top center;background-size:28px 22px;
+    -webkit-mask-repeat:repeat-x;mask-repeat:repeat-x;
+  }
+  .lace-cream{background-color:var(--cream);
+    -webkit-mask-image:radial-gradient(circle at 14px 0, transparent 12px, black 12.5px);
+    mask-image:radial-gradient(circle at 14px 0, transparent 12px, black 12.5px);
+  }
+  .lace-navy{background-color:var(--navy);
+    -webkit-mask-image:radial-gradient(circle at 14px 0, transparent 12px, black 12.5px);
+    mask-image:radial-gradient(circle at 14px 0, transparent 12px, black 12.5px);
+  }
+  .lace-seam{margin-top:56px;margin-bottom:-96px;}
+  @media(max-width:768px){.lace-seam{margin-top:40px;margin-bottom:-64px;}}
+
+  /* ===== icon (svg) ===== */
+  .icon{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;}
+  .pill .icon{width:14px;height:14px;}
+
+  /* ===== sticky whatsapp ===== */
+  .wa-float{
+    position:fixed;bottom:24px;right:24px;z-index:400;
+    background:#25D366;color:#fff;width:60px;height:60px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;box-shadow:0 14px 30px -10px rgba(37,211,102,0.6);
+    animation:pulseWa 2.6s ease-in-out infinite;
+  }
+  @keyframes pulseWa{0%,100%{transform:scale(1);}50%{transform:scale(1.06);}}
+
+  /* ===== footer ===== */
+  footer{background:var(--navy);color:#C7CEDD;padding:64px 0 28px;}
+  .footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;}
+  @media(max-width:800px){.footer-grid{grid-template-columns:1fr 1fr;}}
+  @media(max-width:520px){.footer-grid{grid-template-columns:1fr;}}
+  .footer-logo{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:800;font-size:22px;color:#fff;margin-bottom:14px;}
+  .footer-logo .frame-mark{width:32px;height:32px;border:3px solid var(--mustard);border-radius:6px;position:relative;}
+  .footer-logo .frame-mark::before{content:'';position:absolute;inset:5px;border:2px solid var(--coral);border-radius:2px;}
+  footer h5{color:#fff;font-size:14px;margin-bottom:16px;font-family:var(--font-mono);letter-spacing:0.06em;text-transform:uppercase;}
+  footer ul li{margin-bottom:10px;font-size:14px;}
+  footer ul li a:hover{color:var(--mustard);}
+  .footer-bottom{
+    border-top:1px solid rgba(255,255,255,0.1);margin-top:48px;padding-top:24px;
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:13px;color:#8590A8;
+  }
+</style>
+</head>
+<body>
+
+<div id="flash"></div>
+
+<!-- ===== PROMO BAR ===== -->
+<div class="promo-bar" id="promoBar">
+  <span><strong>Promo Booking Bulan Ini</strong> — diskon 15% untuk semua paket, sisa slot terbatas.</span>
+  <span class="countdown" id="countdown">
+    <span id="cd-h">00</span>:<span id="cd-m">00</span>:<span id="cd-s">00</span>
+  </span>
+  <button class="promo-close" id="promoClose" aria-label="Tutup promo">✕</button>
+</div>
+
+<!-- ===== NAVBAR ===== -->
+<header>
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="#" class="logo"><span class="frame-mark"></span> Frame It</a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#layanan">Layanan</a></li>
+        <li><a href="#paket">Paket</a></li>
+        <li><a href="#galeri">Galeri</a></li>
+        <li><a href="#testimoni">Testimoni</a></li>
+        <li><a href="#kontak">Kontak</a></li>
+      </ul>
+      <div class="nav-right">
+        <a href="#kontak" class="btn btn-primary btn-sm">Booking Sekarang</a>
+        <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main>
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="home">
+  <div class="container hero-grid">
+    <div>
+      <div class="hero-badges reveal">
+        <span class="pill"><span class="dot"></span> 500+ event terlayani</span>
+        <span class="pill"><svg class="icon" viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 16.5 14.5 18 22 12 18 6 22 7.5 14.5 2 9.5 9 9"/></svg> 4.9/5 dari 200+ review</span>
+      </div>
+      <h1 class="reveal reveal-delay-1">Setiap momen<br>layak di<span class="accent">bingkai</span>.</h1>
+      <p class="lead reveal reveal-delay-2">Frame It menghadirkan photobooth premium untuk pernikahan, ulang tahun, acara korporat, sampai grand opening — hasil cetak tajam, unit modern, dan tim yang bikin tamu betah antre foto.</p>
+      <div class="hero-cta reveal reveal-delay-3">
+        <a href="#kontak" class="btn btn-primary">Booking Sekarang</a>
+        <a href="#paket" class="btn btn-outline">Lihat Paket Harga</a>
+      </div>
+      <div class="hero-stats reveal reveal-delay-4">
+        <div class="stat"><b>500+</b><span>Event terlayani</span></div>
+        <div class="stat"><b>4.9/5</b><span>Rating rata-rata</span></div>
+        <div class="stat"><b>4</b><span>Jenis photobooth</span></div>
+      </div>
+    </div>
+    <div class="collage reveal reveal-delay-2">
+      <div class="tape t1"></div>
+      <div class="tape t2"></div>
+      <div class="polaroid p1"><div class="photo"></div><div class="cap">wedding · 08.14</div></div>
+      <div class="polaroid p2"><div class="photo"></div><div class="cap">gathering · 19.02</div></div>
+      <div class="polaroid p3"><div class="photo"></div><div class="cap">ulang tahun · 15.40</div></div>
+      <div class="badge-stamp">FRAME<br>IT<br>★★★</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TENTANG ===== -->
+<section class="section" id="tentang">
+  <div class="container about-grid">
+    <div class="reveal">
+      <span class="eyebrow">Tentang Kami</span>
+      <h2 style="margin-top:14px;font-size:clamp(28px,4vw,40px);">Kami percaya, foto spontan itu yang paling jujur.</h2>
+      <div class="about-copy">
+        <p>Frame It lahir dari kebiasaan sederhana: berhenti sejenak di tengah pesta untuk mengabadikan momen bersama orang-orang terdekat. Sejak berdiri, kami sudah membingkai lebih dari 500 acara — dari akad nikah yang khidmat sampai gathering kantor yang riuh.</p>
+        <p>Setiap unit kami dirawat, setiap hasil cetak diperiksa, dan setiap kru datang lebih awal supaya acara kamu tidak perlu menunggu.</p>
+      </div>
+    </div>
+    <div class="feature-grid">
+      <div class="feature-card reveal">
+        <div class="ic"><svg class="icon" viewBox="0 0 24 24"><path d="M6 9V3h12v6"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="7"/></svg></div>
+        <h4>Kualitas Cetak Premium</h4>
+        <p>Printer dye-sublimation, hasil tahan air & tidak mudah pudar, kering dalam hitungan detik.</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-1">
+        <div class="ic"><svg class="icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 15l-5-4-4 3-3-2-5 4"/></svg></div>
+        <h4>Unit Modern & Terawat</h4>
+        <p>Mirror booth, 360 booth, hingga digital booth dengan software & lighting yang selalu diperbarui.</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-2">
+        <div class="ic"><svg class="icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <h4>Tim Ramah & On-Time</h4>
+        <p>Kru berpengalaman, datang lebih awal untuk setup, siap membantu tamu selama acara berlangsung.</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-3">
+        <div class="ic"><svg class="icon" viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.9 0 1.5-.7 1.5-1.5 0-.4-.2-.8-.4-1.1-.2-.3-.4-.6-.4-1 0-.8.7-1.5 1.5-1.5H16c3.3 0 6-2.7 6-6 0-4.4-4.5-8-10-8z"/></svg></div>
+        <h4>Template Bisa Dikustom</h4>
+        <p>Desain frame cetak disesuaikan dengan tema acara, warna, hingga logo perusahaan kamu.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== LAYANAN ===== -->
+<section class="section" id="layanan">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Layanan</span>
+      <h2>Pilih jenis booth sesuai vibe acaramu</h2>
+      <p>Semua paket bisa dipadukan dengan properti, backdrop, dan template cetak custom.</p>
+    </div>
+    <div class="service-grid">
+      <div class="service-card reveal">
+        <div class="service-photo sv1"><span class="service-tag">Populer</span></div>
+        <div class="service-body"><h4>Mirror Booth</h4><p>Cermin interaktif full-body dengan animasi sentuh — favorit untuk wedding & ulang tahun.</p></div>
+      </div>
+      <div class="service-card reveal reveal-delay-1">
+        <div class="service-photo sv2"><span class="service-tag">Trending</span></div>
+        <div class="service-body"><h4>360 Video Booth</h4><p>Video slow-motion putar 360°, hasil siap dibagikan langsung ke Instagram & TikTok tamu.</p></div>
+      </div>
+      <div class="service-card reveal reveal-delay-2">
+        <div class="service-photo sv3"><span class="service-tag">Klasik</span></div>
+        <div class="service-body"><h4>Classic Photobooth</h4><p>Booth tertutup dengan strip cetak instan — nostalgia photo booth studio zaman dulu.</p></div>
+      </div>
+      <div class="service-card reveal reveal-delay-3">
+        <div class="service-photo sv4"><span class="service-tag">Korporat</span></div>
+        <div class="service-body"><h4>Digital Booth</h4><p>Tanpa antre cetak, hasil langsung ke email/WhatsApp — cocok untuk acara korporat besar.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRINT PREVIEW ===== -->
+<section class="section">
+  <div class="container">
+    <div class="print-preview reveal">
+      <div>
+        <span class="eyebrow">Contoh Hasil Cetak</span>
+        <h2>Template frame khas Frame It, siap pakai dalam hitungan detik.</h2>
+        <p>Setiap strip dicetak lengkap dengan nama acara, tanggal, dan aksen bingkai yang bisa disesuaikan warna temanya.</p>
+      </div>
+      <div class="strip-wrap">
+        <div class="strip">
+          <div class="frame f1"></div>
+          <div class="frame f2"></div>
+          <div class="frame f3"></div>
+          <div class="brand-line">frame it ✦</div>
+          <div class="date-line">01.07.2026 — JAKARTA</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PAKET HARGA ===== -->
+<section class="section" id="paket">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Paket Harga</span>
+      <h2>Tiga pilihan paket, tinggal sesuaikan kebutuhan</h2>
+      <p>Semua harga sudah termasuk kru on-site dan unlimited print selama jam sewa.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="price-card reveal">
+        <h4>Basic</h4>
+        <div class="amount">Rp 1,8jt<span> /acara</span></div>
+        <ul>
+          <li>2 jam sewa</li>
+          <li>Cetak unlimited (1 lembar/sesi)</li>
+          <li>1 jenis template frame</li>
+          <li>Props standar</li>
+          <li>1 kru operator</li>
+        </ul>
+        <a href="#kontak" class="btn btn-outline">Pilih Basic</a>
+      </div>
+      <div class="price-card popular reveal reveal-delay-1">
+        <span class="popular-flag">Paling Populer</span>
+        <h4>Popular</h4>
+        <div class="amount">Rp 2,8jt<span> /acara</span></div>
+        <ul>
+          <li>4 jam sewa</li>
+          <li>Cetak unlimited (2 lembar/sesi)</li>
+          <li>Backdrop custom tema</li>
+          <li>Props premium + galeri digital</li>
+          <li>2 kru operator</li>
+        </ul>
+        <a href="#kontak" class="btn btn-primary">Pilih Popular</a>
+      </div>
+      <div class="price-card reveal reveal-delay-2">
+        <h4>Premium</h4>
+        <div class="amount">Rp 4,2jt<span> /acara</span></div>
+        <ul>
+          <li>6 jam sewa</li>
+          <li>Cetak unlimited (2 lembar/sesi)</li>
+          <li>2 unit booth (pilih kombinasi)</li>
+          <li>Backdrop & template full custom</li>
+          <li>Galeri digital + video 360</li>
+        </ul>
+        <a href="#kontak" class="btn btn-outline">Pilih Premium</a>
+      </div>
+    </div>
+
+    <!-- customizer -->
+    <div class="customizer reveal">
+      <div>
+        <span class="eyebrow">Package Customizer</span>
+        <h3 style="margin-top:12px;font-size:26px;">Racik paketmu sendiri</h3>
+        <p style="color:var(--ink-soft);margin-top:8px;font-size:14.5px;">Geser dan centang sesuai kebutuhan, harga otomatis dihitung di samping.</p>
+
+        <div class="cz-field" style="margin-top:28px;">
+          <div class="cz-field-top"><label>Durasi sewa</label><span class="val" id="czHoursVal">4 jam</span></div>
+          <input type="range" id="czHours" min="2" max="8" step="1" value="4">
+        </div>
+
+        <div class="cz-field">
+          <div class="cz-field-top"><label>Jumlah cetakan / sesi</label><span class="val" id="czPrintsVal">1 lembar</span></div>
+          <input type="range" id="czPrints" min="1" max="3" step="1" value="1">
+        </div>
+
+        <div class="cz-field">
+          <div class="cz-field-top"><label>Tambahan</label></div>
+          <div class="cz-checks">
+            <label class="cz-check"><input type="checkbox" data-price="300000" class="czAdd"> Backdrop custom tema</label>
+            <label class="cz-check"><input type="checkbox" data-price="250000" class="czAdd"> Props premium</label>
+            <label class="cz-check"><input type="checkbox" data-price="400000" class="czAdd"> Galeri digital</label>
+            <label class="cz-check"><input type="checkbox" data-price="600000" class="czAdd"> Unit 360 video booth</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="cz-summary">
+        <span class="eyebrow">Estimasi Harga</span>
+        <div class="total" id="czTotal">Rp 0<span> /acara</span></div>
+        <div class="lines">
+          <div><span>Sewa dasar</span><span id="lnBase">Rp 0</span></div>
+          <div><span>Durasi tambahan</span><span id="lnHours">Rp 0</span></div>
+          <div><span>Cetakan ekstra</span><span id="lnPrints">Rp 0</span></div>
+          <div><span>Add-on</span><span id="lnAdd">Rp 0</span></div>
+        </div>
+        <a href="#kontak" class="btn btn-primary">Booking Paket Ini</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== GALERI ===== -->
+<section class="section" id="galeri">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Galeri</span>
+      <h2>Cuplikan momen dari event-event kami</h2>
+      <p>Filter berdasarkan jenis acara untuk lihat gaya frame yang cocok buat kamu.</p>
+    </div>
+    <div class="filter-row reveal">
+      <button class="filter-btn active" data-filter="all">Semua</button>
+      <button class="filter-btn" data-filter="wedding">Wedding</button>
+      <button class="filter-btn" data-filter="birthday">Ulang Tahun</button>
+      <button class="filter-btn" data-filter="corporate">Korporat</button>
+      <button class="filter-btn" data-filter="gathering">Gathering</button>
+    </div>
+    <div class="gallery-grid reveal" id="galleryGrid">
+      <div class="gallery-item g-tall gw1" data-cat="wedding"><span class="g-label">Wedding — Dinda & Rafi</span></div>
+      <div class="gallery-item gb1" data-cat="birthday"><span class="g-label">Sweet 17 — Kayla</span></div>
+      <div class="gallery-item gc1" data-cat="corporate"><span class="g-label">Town Hall — PT Nusantara</span></div>
+      <div class="gallery-item gg1" data-cat="gathering"><span class="g-label">Gathering Alumni</span></div>
+      <div class="gallery-item gw2" data-cat="wedding"><span class="g-label">Wedding — Sari & Bimo</span></div>
+      <div class="gallery-item g-tall gc2" data-cat="corporate"><span class="g-label">Grand Opening — Kopi Rasa</span></div>
+      <div class="gallery-item gb2" data-cat="birthday"><span class="g-label">Ulang Tahun — Raka</span></div>
+      <div class="gallery-item gg2" data-cat="gathering"><span class="g-label">Family Gathering BUMN</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TESTIMONI ===== -->
+<section class="section" id="testimoni" style="background:var(--cream-2);">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Testimoni</span>
+      <h2>Kata mereka yang sudah pakai Frame It</h2>
+    </div>
+    <div class="test-track reveal">
+      <div class="test-card">
+        <div class="stars">★★★★★</div>
+        <p class="quote">Antrean foto jadi salah satu momen favorit di resepsi kami. Tim datang tepat waktu dan hasil cetaknya bagus banget!</p>
+        <div class="test-who"><div class="test-avatar ta1"></div><div><b>Dinda Pratiwi</b><span>Pernikahan · Bandar Lampung</span></div></div>
+      </div>
+      <div class="test-card">
+        <div class="stars">★★★★★</div>
+        <p class="quote">Booking gampang, harga jelas dari awal, dan tim Frame It sangat sabar ngatur tamu yang antusias banget mau foto terus.</p>
+        <div class="test-who"><div class="test-avatar ta2"></div><div><b>Bagas Wirawan</b><span>Gathering Kantor</span></div></div>
+      </div>
+      <div class="test-card">
+        <div class="stars">★★★★★</div>
+        <p class="quote">Mirror booth-nya jadi pusat perhatian di acara ulang tahun anak saya. Semua tamu ikut heboh nyobain filternya.</p>
+        <div class="test-who"><div class="test-avatar ta3"></div><div><b>Ratna Dewi</b><span>Ulang Tahun Anak</span></div></div>
+      </div>
+      <div class="test-card">
+        <div class="stars">★★★★★</div>
+        <p class="quote">Untuk acara korporat, digital booth-nya sangat efisien — tidak ada antrean panjang dan hasil langsung ke email tim.</p>
+        <div class="test-who"><div class="test-avatar ta4"></div><div><b>Andi Kurniawan</b><span>Corporate Event</span></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="lace lace-cream lace-seam" aria-hidden="true"></div>
+</section>
+
+<!-- ===== CARA BOOKING ===== -->
+<section class="section" id="cara-booking">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Cara Booking</span>
+      <h2>Empat langkah, booth siap di hari-H</h2>
+    </div>
+    <div class="steps-row">
+      <div class="step reveal"><span class="num">01</span><h4>Pilih Paket</h4><p>Sesuaikan jenis booth dan paket dengan kebutuhan acaramu.</p></div>
+      <div class="step reveal reveal-delay-1"><span class="num">02</span><h4>Isi Form</h4><p>Kirim detail tanggal, lokasi, dan jenis acara lewat form di bawah.</p></div>
+      <div class="step reveal reveal-delay-2"><span class="num">03</span><h4>Bayar DP</h4><p>Amankan tanggal dengan DP 30%, sisanya dibayar sebelum acara.</p></div>
+      <div class="step reveal reveal-delay-3"><span class="num">04</span><h4>Hari-H</h4><p>Tim kami setup 1 jam sebelum acara — kamu tinggal foto sepuasnya.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== AVAILABILITY ===== -->
+<section class="section" style="background:var(--cream-2);">
+  <div class="container avail-wrap">
+    <div class="reveal">
+      <span class="eyebrow">Ketersediaan</span>
+      <h2 style="margin-top:14px;font-size:clamp(26px,4vw,36px);">Cek dulu, biar tanggal impianmu nggak keduluan</h2>
+      <p style="color:var(--ink-soft);margin-top:14px;font-size:15px;">Kalender di samping menampilkan status booking bulan ini secara real-time. Tanggal favorit cepat penuh, terutama akhir pekan — buruan amankan sebelum kehabisan.</p>
+      <a href="#kontak" class="btn btn-primary" style="margin-top:24px;">Tanya Tanggal Lain</a>
+    </div>
+    <div class="cal reveal">
+      <div class="cal-head"><b>Juli 2026</b><span style="font-family:var(--font-mono);font-size:12px;color:var(--ink-soft);">update real-time</span></div>
+      <div class="cal-grid" id="calGrid"></div>
+      <div class="cal-legend">
+        <span><i class="legend-dot" style="background:var(--cream-2);border:1px solid var(--line);"></i>Tersedia</span>
+        <span><i class="legend-dot" style="background:rgba(242,174,30,0.35);"></i>Sisa 1 slot</span>
+        <span><i class="legend-dot" style="background:var(--navy);"></i>Full booked</span>
+      </div>
+    </div>
+  </div>
+  <div class="lace lace-cream lace-seam" aria-hidden="true"></div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="section" id="faq">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">FAQ</span>
+      <h2>Pertanyaan yang sering ditanyakan</h2>
+    </div>
+    <div class="faq-list reveal">
+      <div class="faq-item open">
+        <button class="faq-q">Area mana saja yang dilayani Frame It? <span class="plus">+</span></button>
+        <div class="faq-a"><p>Kami melayani area Bandar Lampung dan sekitarnya secara reguler, serta Jakarta & kota lain dengan biaya transportasi tambahan. Hubungi kami untuk cek ketersediaan di kotamu.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Berapa DP yang harus dibayar untuk booking? <span class="plus">+</span></button>
+        <div class="faq-a"><p>DP sebesar 30% dari total paket untuk mengamankan tanggal. Sisanya dilunasi maksimal H-1 sebelum acara berlangsung.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Bagaimana kebijakan pembatalan atau reschedule? <span class="plus">+</span></button>
+        <div class="faq-a"><p>Reschedule gratis 1x jika diajukan minimal 7 hari sebelum acara. Pembatalan setelah DP dibayarkan tidak dapat direfund, namun bisa dialihkan ke tanggal lain.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Apakah bisa request desain template cetak sendiri? <span class="plus">+</span></button>
+        <div class="faq-a"><p>Bisa banget! Kirimkan tema warna, logo, atau referensi desain minimal 5 hari sebelum acara, tim kami akan membuatkan template khusus untukmu.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Butuh listrik atau perlengkapan khusus dari lokasi acara? <span class="plus">+</span></button>
+        <div class="faq-a"><p>Kami hanya membutuhkan 1 titik stop kontak listrik dan area sekitar 2x2 meter untuk setup booth beserta backdrop.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== COVERAGE AREA ===== -->
+<section class="section">
+  <div class="container">
+    <div class="coverage-wrap reveal">
+      <div>
+        <span class="eyebrow">Area Coverage</span>
+        <h2>Melayani berbagai kota, siap datang ke acaramu</h2>
+        <p>Basis operasional kami di Bandar Lampung, dengan jangkauan reguler ke kota-kota sekitar dan luar kota atas permintaan.</p>
+        <div class="city-grid">
+          <span class="city-badge"><i class="pin"></i>Bandar Lampung</span>
+          <span class="city-badge"><i class="pin"></i>Metro</span>
+          <span class="city-badge"><i class="pin"></i>Pringsewu</span>
+          <span class="city-badge"><i class="pin"></i>Lampung Selatan</span>
+          <span class="city-badge"><i class="pin"></i>Jakarta</span>
+          <span class="city-badge"><i class="pin"></i>Palembang</span>
+          <span class="city-badge"><i class="pin"></i>Lahat</span>
+        </div>
+      </div>
+      <div class="map-illust">
+        <iframe
+          src="https://www.google.com/maps?q=SMA+Negeri+4+Lahat,+Tanjung+Payang&output=embed"
+          width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade" title="Lokasi Frame It — SMA Negeri 4 Lahat, Tanjung Payang">
+        </iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== INSTAGRAM FEED ===== -->
+<section class="section">
+  <div class="container">
+    <div class="ig-head reveal">
+      <div>
+        <span class="eyebrow">Instagram & TikTok</span>
+        <h3 style="margin-top:10px;font-size:26px;">Follow @frameit.id buat lihat momen terbaru</h3>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <a href="#" class="btn btn-outline btn-sm">Instagram</a>
+        <a href="#" class="btn btn-outline btn-sm">TikTok</a>
+      </div>
+    </div>
+    <div class="ig-grid reveal">
+      <div class="ig-tile ig1"></div>
+      <div class="ig-tile ig2"></div>
+      <div class="ig-tile ig3"></div>
+      <div class="ig-tile ig4"></div>
+      <div class="ig-tile ig5"></div>
+      <div class="ig-tile ig6"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== KONTAK / FORM ===== -->
+<section class="section" id="kontak" style="background:var(--cream-2);">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Kontak & Booking</span>
+      <h2>Yuk, amankan tanggal acaramu</h2>
+      <p>Isi form di bawah atau langsung chat WhatsApp, tim kami balas cepat kok.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info reveal">
+        <h3>Ngobrol dulu yuk</h3>
+        <p>Ceritakan acaramu, kami bantu rekomendasi paket yang paling pas.</p>
+        <div class="contact-line"><div class="ic"><svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.68 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.32 1.85.55 2.81.68A2 2 0 0 1 22 16.92z"/></svg></div><div><b>WhatsApp</b><span>+62 812-3456-7890</span></div></div>
+        <div class="contact-line"><div class="ic"><svg class="icon" viewBox="0 0 24 24"><path d="M4 4h16v16H4z" style="display:none"/><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></div><div><b>Email</b><span>halo@frameit.id</span></div></div>
+        <div class="contact-line"><div class="ic"><svg class="icon" viewBox="0 0 24 24"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div><b>Studio</b><span>Bandar Lampung, Indonesia</span></div></div>
+        <div class="contact-socials">
+          <a href="#" class="soc-btn" aria-label="Instagram"><svg class="icon" viewBox="0 0 24 24" style="width:18px;height:18px;"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+          <a href="#" class="soc-btn" aria-label="TikTok"><svg class="icon" viewBox="0 0 24 24" style="width:18px;height:18px;"><path d="M14 3v10.5a3.5 3.5 0 1 1-3-3.46"/><path d="M14 3c.4 2.6 2.2 4.5 5 4.8"/></svg></a>
+          <a href="https://wa.me/6281234567890" target="_blank" class="soc-btn" aria-label="WhatsApp"><svg viewBox="0 0 24 24" style="width:18px;height:18px;fill:currentColor;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.68 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.32 1.85.55 2.81.68A2 2 0 0 1 22 16.92z"/></svg></a>
+        </div>
+      </div>
+      <form class="form-card reveal" onsubmit="event.preventDefault(); alert('Terima kasih! Form kamu sudah terkirim, tim kami akan segera menghubungi via WhatsApp.');">
+        <div class="form-row">
+          <div class="field"><label>Nama Lengkap</label><input type="text" placeholder="Nama kamu" required></div>
+          <div class="field"><label>Nomor WhatsApp</label><input type="tel" placeholder="08xx-xxxx-xxxx" required></div>
+        </div>
+        <div class="form-row">
+          <div class="field"><label>Tanggal Acara</label><input type="date" required></div>
+          <div class="field">
+            <label>Jenis Acara</label>
+            <select>
+              <option>Pernikahan</option>
+              <option>Ulang Tahun</option>
+              <option>Korporat</option>
+              <option>Gathering</option>
+              <option>Grand Opening</option>
+              <option>Lainnya</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label>Pilih Paket</label>
+          <select>
+            <option>Basic</option>
+            <option selected>Popular</option>
+            <option>Premium</option>
+            <option>Custom (sesuai Package Customizer)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Catatan Tambahan</label>
+          <textarea rows="3" placeholder="Ceritakan sedikit tentang acaramu..."></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Kirim & Booking</button>
+          <a href="https://wa.me/6281234567890" target="_blank" class="btn btn-dark"><svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:currentColor;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.68 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.32 1.85.55 2.81.68A2 2 0 0 1 22 16.92z"/></svg> Chat WhatsApp Langsung</a>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="lace lace-navy lace-seam" aria-hidden="true"></div>
+</section>
+
+</main>
+
+<a href="https://wa.me/6281234567890" target="_blank" class="wa-float" aria-label="Chat WhatsApp">
+  <svg viewBox="0 0 24 24" style="width:26px;height:26px;fill:#fff;"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.87.5 3.63 1.42 5.14L2 22l5.13-1.5a9.86 9.86 0 0 0 4.9 1.3h.01c5.46 0 9.9-4.45 9.9-9.9C21.95 6.45 17.5 2 12.04 2zm5.8 14.05c-.24.68-1.4 1.3-1.93 1.37-.5.07-1.03.29-3.45-.72-2.9-1.2-4.77-4.15-4.92-4.34-.14-.2-1.18-1.57-1.18-3 0-1.42.75-2.12 1.02-2.41.26-.29.58-.36.77-.36.2 0 .39 0 .56.01.18.01.42-.07.65.5.24.58.82 2.01.9 2.16.07.15.12.32.02.51-.09.2-.14.32-.28.49-.14.17-.29.38-.42.51-.14.14-.28.29-.12.57.16.28.71 1.18 1.53 1.91 1.05.94 1.94 1.23 2.22 1.37.28.14.44.12.6-.07.17-.2.7-.82.89-1.1.19-.28.38-.23.63-.14.26.09 1.65.78 1.93.92.28.14.47.21.53.33.07.12.07.68-.17 1.35z"/></svg>
+</a>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo"><span class="frame-mark"></span> Frame It</div>
+        <p style="font-size:14px;max-width:260px;">Membingkai setiap momen berharga di acaramu — dari akad nikah sampai gathering kantor.</p>
+      </div>
+      <div>
+        <h5>Navigasi</h5>
+        <ul>
+          <li><a href="#layanan">Layanan</a></li>
+          <li><a href="#paket">Paket</a></li>
+          <li><a href="#galeri">Galeri</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Layanan</h5>
+        <ul>
+          <li><a href="#layanan">Mirror Booth</a></li>
+          <li><a href="#layanan">360 Video Booth</a></li>
+          <li><a href="#layanan">Classic Photobooth</a></li>
+          <li><a href="#layanan">Digital Booth</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Ikuti Kami</h5>
+        <ul>
+          <li><a href="#">Instagram — @frameit.id</a></li>
+          <li><a href="#">TikTok — @frameit.id</a></li>
+          <li><a href="#kontak">WhatsApp</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Frame It. Seluruh hak cipta dilindungi.</span>
+      <span>Berbasis di Bandar Lampung, Indonesia</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// remove flash overlay after animation
+setTimeout(()=>{ const f=document.getElementById('flash'); if(f) f.remove(); }, 950);
+
+// mobile nav
+const burger = document.getElementById('burger');
+const navLinks = document.getElementById('navLinks');
+burger.addEventListener('click', ()=> navLinks.classList.toggle('open'));
+navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', ()=> navLinks.classList.remove('open')));
+
+// promo bar close
+document.getElementById('promoClose').addEventListener('click', ()=>{
+  document.getElementById('promoBar').style.display = 'none';
+});
+
+// countdown timer (resets to end of "today" for demo purposes)
+function updateCountdown(){
+  const now = new Date();
+  const end = new Date();
+  end.setHours(23,59,59,999);
+  let diff = Math.max(0, end - now);
+  const h = String(Math.floor(diff/3600000)).padStart(2,'0');
+  const m = String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
+  const s = String(Math.floor((diff%60000)/1000)).padStart(2,'0');
+  document.getElementById('cd-h').textContent = h;
+  document.getElementById('cd-m').textContent = m;
+  document.getElementById('cd-s').textContent = s;
+}
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+// scroll reveal
+const revealEls = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add('in-view');
+      io.unobserve(entry.target);
+    }
+  });
+},{threshold:0.12});
+revealEls.forEach(el=>io.observe(el));
+
+// gallery filter
+const filterBtns = document.querySelectorAll('.filter-btn');
+const galleryItems = document.querySelectorAll('.gallery-item');
+filterBtns.forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    filterBtns.forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const f = btn.dataset.filter;
+    galleryItems.forEach(item=>{
+      if(f === 'all' || item.dataset.cat === f){
+        item.classList.remove('hide');
+      } else {
+        item.classList.add('hide');
+      }
+    });
+  });
+});
+
+// FAQ accordion
+document.querySelectorAll('.faq-item').forEach(item=>{
+  const q = item.querySelector('.faq-q');
+  const a = item.querySelector('.faq-a');
+  if(item.classList.contains('open')) a.style.maxHeight = a.scrollHeight + 'px';
+  q.addEventListener('click', ()=>{
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i=>{
+      i.classList.remove('open');
+      i.querySelector('.faq-a').style.maxHeight = null;
+    });
+    if(!isOpen){
+      item.classList.add('open');
+      a.style.maxHeight = a.scrollHeight + 'px';
+    }
+  });
+});
+
+// package customizer
+const czHours = document.getElementById('czHours');
+const czPrints = document.getElementById('czPrints');
+const czAdds = document.querySelectorAll('.czAdd');
+const BASE_PRICE = 1800000; // 2 jam, 1 cetak
+const HOUR_PRICE = 350000;
+const PRINT_PRICE = 500000;
+
+function formatRupiah(n){
+  return 'Rp ' + n.toLocaleString('id-ID');
+}
+
+function calcPrice(){
+  const hours = parseInt(czHours.value);
+  const prints = parseInt(czPrints.value);
+  document.getElementById('czHoursVal').textContent = hours + ' jam';
+  document.getElementById('czPrintsVal').textContent = prints + ' lembar';
+
+  const extraHours = Math.max(0, hours - 2);
+  const extraPrints = Math.max(0, prints - 1);
+  const hoursCost = extraHours * HOUR_PRICE;
+  const printsCost = extraPrints * PRINT_PRICE;
+
+  let addCost = 0;
+  czAdds.forEach(chk=>{ if(chk.checked) addCost += parseInt(chk.dataset.price); });
+
+  const total = BASE_PRICE + hoursCost + printsCost + addCost;
+
+  document.getElementById('czTotal').innerHTML = formatRupiah(total) + '<span> /acara</span>';
+  document.getElementById('lnBase').textContent = formatRupiah(BASE_PRICE);
+  document.getElementById('lnHours').textContent = formatRupiah(hoursCost);
+  document.getElementById('lnPrints').textContent = formatRupiah(printsCost);
+  document.getElementById('lnAdd').textContent = formatRupiah(addCost);
+}
+czHours.addEventListener('input', calcPrice);
+czPrints.addEventListener('input', calcPrice);
+czAdds.forEach(chk=>chk.addEventListener('change', calcPrice));
+calcPrice();
+
+// availability calendar (demo data for July 2026)
+const calGrid = document.getElementById('calGrid');
+const dows = ['S','S','R','K','J','S','M'];
+const startOffset = 3; // 1 Jul 2026 is a Wednesday -> offset from Sunday
+const daysInMonth = 31;
+const bookedDays = [4,5,11,12,18,19,25,26,31];
+const limitedDays = [3,10,17,24];
+
+['Min','Sen','Sel','Rab','Kam','Jum','Sab'].forEach(d=>{
+  const el = document.createElement('div');
+  el.className = 'dow';
+  el.textContent = d;
+  calGrid.appendChild(el);
+});
+for(let i=0;i<startOffset;i++){
+  const el = document.createElement('div');
+  el.className = 'cal-day empty';
+  calGrid.appendChild(el);
+}
+for(let d=1; d<=daysInMonth; d++){
+  const el = document.createElement('div');
+  el.className = 'cal-day';
+  el.textContent = d;
+  if(bookedDays.includes(d)) el.classList.add('booked');
+  else if(limitedDays.includes(d)) el.classList.add('available');
+  if(d === 1) el.classList.add('today');
+  calGrid.appendChild(el);
+}
+</script>
+
+</body>
+</html>
